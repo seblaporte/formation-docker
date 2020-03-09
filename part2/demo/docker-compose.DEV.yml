@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  traefik:
+    ports:
+      - "8080:8080"
+
+  mysql:
+    ports:
+      - "3306:3306"
+
+  wordpress:
+    ports:
+      - "8090:80"

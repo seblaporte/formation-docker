@@ -1,0 +1,47 @@
+version: '2'
+
+networks:
+  wordpress:
+
+volumes:
+  mysql:
+
+services:
+  traefik:
+    image: traefik:faisselle-alpine
+    networks:
+      - wordpress
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/traefik.toml
+    labels:
+      - "traefik.enable=false"
+
+  wordpress:
+    image: wordpress:php7.3-apache
+    networks:
+      - wordpress
+    environment:
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_PASSWORD}
+      - WORDPRESS_DB_HOST=mysql
+    links:
+      - mysql:mysql
+    volumes:
+      - ./persistent/server:/root/shared
+      - ./persistent/content:/var/www/html/wp-content
+    labels:
+      - "traefik.backend=wordpress"
+      - "traefik.frontend.rule=Host:wordpress.docker.localhost"
+
+  mysql:
+    image: mariadb:10.0
+    networks:
+      - wordpress
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${WORDPRESS_PASSWORD}
+    labels:
+      - "traefik.enable=false"

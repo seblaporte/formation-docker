@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  hello-docker:
+    build:
+      context: ./
+    ports:
+      - "8080:80"
+    volumes:
+      - ./www:/var/www/html

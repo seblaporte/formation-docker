@@ -1,0 +1,60 @@
+#%RAML 0.8
+title: Syges Interface
+version: "1.0.0"
+baseUri: "https://apconnect.dev"
+
+/password:
+
+    /{username}:
+        get:
+            description: Get user password by username
+            responses:
+                200:
+                    description: Success
+                    body:
+                        application/json:
+                            example: |
+                                {
+                                  "password": "$2y$14$jdAV99tgV35HL0PLEccGhOWsJSuDnubHjO9m/KStGRUT21Grqcil2"
+                                }
+                404:
+                    description: Invalid user
+                    body:
+                        application/json:
+                            example: |
+                                {
+                                  "error": "user not found"
+                                }
+
+/userinfo:
+
+    /{username}:
+        get:
+            description: Get user information by username
+            responses:
+                200:
+                    description: Success
+                    body:
+                        application/json:
+                            example: |
+                                {
+                                  "firstName": "John",
+                                  "lastName": "Doe",
+                                  "establishment": "APSIDE TOP SAS",
+                                  "company": "APSIDE TOP",
+                                  "id": 50,
+                                  "managerRole": [
+                                  ],
+                                  "resourceCategory,": null,
+                                  "resourceType": "EM",
+                                  "email": "doe.01@apside-groupe.com",
+                                  "sub": "doe.01@apside-groupe.com"
+                                }
+                404:
+                    description: Invalid user
+                    body:
+                        application/json:
+                            example: |
+                                {
+                                  "error": "user not found"
+                                }
